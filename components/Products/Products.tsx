@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import ProductItem from "../ProductItem/ProductItem";
 import Checkbox from "@mui/material/Checkbox";
-import { FormControlLabel, FormGroup } from "@mui/material";
 import Skeletons from "../skeleton/Skeleton";
+import { usePathname, useRouter } from "next/navigation";
+import { useSelectedOption } from "@/app/context/MyContext";
+import { useTranslation } from "react-i18next";
 
 type product = {
   id: number;
@@ -21,28 +23,47 @@ type product = {
 
 const Products = () => {
   const [products, setProducts] = useState<product[]>([]);
-  const [selectedOption, setSelectedOption] = useState<string>("all");
+  // const [selectedOption, setSelectedOption] = useState<string>("all");
+  const { selectedOption, setSelectedOption } = useSelectedOption();
   const [loading, setLoading] = useState<boolean>(true);
+  const router=useRouter()
+  const {t}=useTranslation("common")
 
   useEffect(() => {
+    setLoading(true)
     const fetchProducts = async () => {
       const BASE_URL = "https://fakestoreapi.com/products";
-      const res = await fetch(BASE_URL);
+      let URL
+      if(selectedOption==="all"){
+        URL=BASE_URL
+      }
+      else{
+        URL=BASE_URL+`/category/${selectedOption}`
+      }
+      const res = await fetch(URL);
       const data: product[] = await res.json();
       setProducts(data);
       setLoading(false);
     };
+    
 
     fetchProducts();
-  }, []);
+  }, [selectedOption]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setSelectedOption(value === selectedOption ? "" : value);
+    if(value !="all"){
+      router.push(`?category=${value}`)
+
+    }
+    else{
+      router.push('/')
+    }
+    setSelectedOption( value);
   };
 
   return (
-    <div className="px-48 flex item-center gap-x-5 ">
+    <div className="px-48 flex item-center gap-x-5">
       {loading ? (
         <Skeletons />
       ) : (
@@ -52,62 +73,67 @@ const Products = () => {
           ))}
         </div>
       )}
-      <div className="border-2 border-blue-500 self-start rounded-lg">
-        <p className="mb-3 font-bold text-center text-white bg-blue-500 py-2">
-          categories
+      <div className=" border-2 border-blue-500 self-start rounded-lg w-[200px] ">
+        <p className="w-[200px] mb-3 font-bold text-center text-white bg-blue-500 py-2">
+          {t("Categories")}
         </p>
-        <FormGroup className="p-3">
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedOption === "all"}
-                onChange={handleChange}
-                value="all"
-              />
-            }
-            label="all"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedOption === "electronics"}
-                onChange={handleChange}
-                value="electronics"
-              />
-            }
-            label="electronics"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedOption === "jewelery"}
-                onChange={handleChange}
-                value="jewelery"
-              />
-            }
-            label="jewelery"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedOption === "mens_clothing"}
-                onChange={handleChange}
-                value="mens_clothing"
-              />
-            }
-            label="mens_clothing"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={selectedOption === "womens_clothing"}
-                onChange={handleChange}
-                value="womens_clothing"
-              />
-            }
-            label="womens_clothing"
-          />
-        </FormGroup>
+        <div className="p-3 space-y-3 w-[200px]">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={selectedOption === "all"}
+              onChange={handleChange}
+              value="all"
+              id="all"
+              className="mr-2"
+            />
+            <label htmlFor="all">{t("all")}</label>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={selectedOption === "electronics"}
+              onChange={handleChange}
+              value="electronics"
+              id="electronics"
+              className="mr-2"
+            />
+            <label htmlFor="electronics">{t("electronics")}</label>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={selectedOption === "jewelery"}
+              onChange={handleChange}
+              value="jewelery"
+              id="jewelery"
+              className="mr-2"
+            />
+            <label htmlFor="jewelery">{t("jewelery")}</label>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={selectedOption === "men's clothing"}
+              onChange={handleChange}
+              value="men's clothing"
+              id="men's clothing"
+              className="mr-2"
+            />
+            <label className="whitespace-nowrap" htmlFor="mens_clothing">{t("mens_clothing")}</label>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={selectedOption === "women's clothing"}
+              onChange={handleChange}
+              value="women's clothing"
+              id="women's clothing"
+              className="mr-2"
+            />
+            <label className="whitespace-nowrap" htmlFor="womens_clothing">{t("womens_clothing")}</label>
+          </div>
+        </div>
       </div>
     </div>
   );

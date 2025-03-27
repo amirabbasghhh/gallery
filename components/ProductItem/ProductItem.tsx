@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { useTranslation } from "react-i18next";
@@ -26,28 +27,42 @@ const ProductItem: React.FC<ProductItemProps> = ({
   rating,
 }) => {
   const [value, setValue] = useState<number | null>(rating.rate);
-  const{t}=useTranslation("common")
+  const { t, i18n } = useTranslation("common");
+
+  // چک کردن زبان برای تغییر قیمت و واحد پولی
+  const isPersian = i18n.language === "fa";
+  const displayedPrice = isPersian 
+    ? (price * 100000).toLocaleString("fa-IR") 
+    : price;
+  const currency = isPersian ? "تومان" : "$";
 
   return (
     <div className="shadow-xl p-4">
-      <img className="w-[80%] h-42 mx-auto " src={image} alt={title} />
+      <img className="w-[80%] h-42 mx-auto" src={image} alt={title} />
       <div className="flex items-center justify-center my-4">
         <Rating
-            name="simple-controlled"
-            value={value}
-            onChange={(event, newValue) => {
+          name="simple-controlled"
+          value={value}
+          onChange={(event, newValue) => {
             setValue(newValue);
-            }}
+          }}
         />
-
       </div>
-      <p className=" overflow-hidden font-bold line-clamp-3 min-h-[60px]">{title.split(" ").slice(0, 5).join(" ")}</p>
+      <p className="overflow-hidden font-bold line-clamp-2 min-h-[60px]">
+        {title.length > 20 ? title.slice(0, 20) + "..." : title}
+      </p>
 
-      <div className="flex items-center justify-between mt-5">
-        <p className="p-2 rounded-md bg-green-500 text-white text-center w-20">{price} $</p>
-        <p>{category}</p>
+      {/* بخش قیمت و کتگوری */}
+      <div className={`mt-5 flex ${isPersian ? "flex-col" : "flex-row"} items-center justify-between`}>
+        <p className="p-2 rounded-md bg-green-500 text-white text-center w-full">
+          {displayedPrice} {currency}
+        </p>
+        <p className={`text-xs ${isPersian ? "mt-2 text-center" : "ml-2"}`}>{category}</p>
       </div>
-      <button className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">{t("Add_to_Cart")}</button>
+
+      <button className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">
+        {t("Add_to_Cart")}
+      </button>
     </div>
   );
 };
