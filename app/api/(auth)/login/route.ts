@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "password is incorrect" }, { status: 401 });
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: "10h" });
 
     
     const response = NextResponse.json({ message: "Login successful",user:user,token:token }, { status: 201 });

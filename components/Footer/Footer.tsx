@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-blue-500 text-white pt-5 pb-2 mt-16">
       <div className="container mx-auto px-6 lg:px-20 flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left mb-6 md:mb-0">
-          <h2 className="text-2xl font-bold">BrandName</h2>
+          <h2 className="text-2xl font-bold">DIGI shop</h2>
           <p className="text-white mt-2">Bringing innovation to your fingertips.</p>
         </div>
         <div className="flex space-x-6">

@@ -51,7 +51,6 @@ export const SelectedOptionProvider = ({
     fetchUser();
   }, []);
   const searchParams = useSearchParams();
-
   const categoryFromUrl = searchParams.get("category") || "all";
   const [selectedOption, setSelectedOption] = useState<string>(() => {
     if (typeof window !== "undefined") {
@@ -65,9 +64,7 @@ export const SelectedOptionProvider = ({
   }, [selectedOption]);
 
   return (
-    <SelectedOptionContext.Provider
-      value={{ selectedOption, setSelectedOption, user, fetchUser, logout }}
-    >
+    <SelectedOptionContext.Provider value={{ selectedOption, setSelectedOption, user, fetchUser, logout }} >
       {children}
     </SelectedOptionContext.Provider>
   );

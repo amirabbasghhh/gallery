@@ -5,6 +5,7 @@ import Header from "@/components/Header/Header";
 import { SelectedOptionProvider } from "./context/MyContext";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer/Footer";
+import { CartProvider } from "./context/CartContext";
 
 export const metadata: Metadata = {
   title: "shop",
@@ -19,16 +20,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <SelectedOptionProvider>
-          <Providers>
-            <Header />
-            <div className="mt-32 mb-20">
-            <Toaster position="top-center" />
-              {children}
-              </div>
-              <Footer/>
-          </Providers>
-        </SelectedOptionProvider>
+        <CartProvider>
+            <SelectedOptionProvider>
+              <Providers>
+                <Header />
+                <div className="mt-32 mb-20 min-h-[600px]">
+                <Toaster position="top-center" />
+                  {children}
+                  </div>
+                  <Footer/>
+              </Providers>
+            </SelectedOptionProvider>
+        </CartProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import AppLanguageSelector from "../LanguageSelector/AppLanguageSelector";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { useSelectedOption } from "@/app/context/MyContext";
+import { useCart } from "@/app/context/CartContext";
 
 interface User {
   token: string;
@@ -16,6 +17,9 @@ interface User {
 
 const Header = () => {
   const { t,i18n } = useTranslation("common");
+    const { cart } = useCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
+
   
   const { setSelectedOption } = useSelectedOption();
   const { user, logout } = useSelectedOption();
@@ -187,7 +191,10 @@ const Header = () => {
               </svg>
             </Link>
           )}
-          <Link href="/cart">
+          <Link className="relative" href="/cart">
+            {cart.length > 0 && (
+              <p className="absolute h-5 w-5 flex items-center justify-center bottom-8 -right-2 p-2 rounded-full bg-red-500 text-white">{totalItems}</p>
+            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

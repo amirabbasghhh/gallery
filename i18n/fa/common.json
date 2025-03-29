@@ -24,5 +24,10 @@
   "sign out":"خروج",
   "dashboard":"پیشخوان",
   "account detail":"جزییات حساب",
-  "cart":"سبد خرید"
+  "cart":"سبد خرید",
+  "first login":"ابتدا باید وارد حساب کاربری خود شوید",
+  "total price":"قیمت کل",
+  "total count":"تعداد کل محصولات"
+
+
 }

@@ -5,6 +5,7 @@ import Rating from "@mui/material/Rating";
 import { useTranslation } from "react-i18next";
 import { useSelectedOption } from "@/app/context/MyContext";
 import toast from "react-hot-toast";
+import { useCart } from "@/app/context/CartContext";
 
 type ProductItemProps = {
   image: string;
@@ -30,20 +31,21 @@ const ProductItem: React.FC<ProductItemProps> = ({
 }) => {
   const [value, setValue] = useState<number | null>(rating.rate);
   const { t, i18n } = useTranslation("common");
-  const { user, logout } = useSelectedOption();
-  const cartHandler=()=>{
-    if(user){
-      toast.success("به سبد خرید اضافه شد")
+  const { user } = useSelectedOption();
+  const { cart, addToCart, removeFromCart } = useCart();
+  const isProduct=cart.find(product => product.id === id)
+  const cartHandler = () => {
+    if (user) {
+      addToCart({ id, title, price, image });
+      toast.success(t("Added to cart"));
+    } else {
+      toast.error(t("first login"));
     }
-    else{
-      toast.error("ابتدا وارد حساب کاربری خود شوید")
-    }
-  }
+  };
 
-  
   const isPersian = i18n.language === "fa";
-  const displayedPrice = isPersian 
-    ? (price * 100000).toLocaleString("fa-IR") 
+  const displayedPrice = isPersian
+    ? (price * 100000).toLocaleString("fa-IR")
     : price;
   const currency = isPersian ? "تومان" : "$";
 
@@ -63,16 +65,39 @@ const ProductItem: React.FC<ProductItemProps> = ({
         {title.length > 20 ? title.slice(0, 20) + "..." : title}
       </p>
 
-      <div className={`mt-5 flex ${isPersian ? "flex-col" : "flex-row"} items-center justify-between`}>
+      <div
+        className={`mt-5 flex ${
+          isPersian ? "flex-col" : "flex-row"
+        } items-center justify-between`}
+      >
         <p className="p-2 rounded-md bg-green-500 text-white text-center w-full">
           {displayedPrice} {currency}
         </p>
-        <p className={`text-xs ${isPersian ? "mt-2 text-center" : "ml-2"}`}>{category}</p>
+        <p className={`text-xs ${isPersian ? "mt-2 text-center" : "ml-2"}`}>
+          {category}
+        </p>
       </div>
+      <div className="flex items-center  gap-x-3">
+        {!isProduct && (
 
-      <button onClick={cartHandler} className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">
-        {t("Add_to_Cart")}
-      </button>
+        <button onClick={cartHandler} className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">
+          {t("Add_to_Cart")}
+        </button>
+        )}
+        {isProduct && (
+           <button onClick={() => addToCart({ id, title, price, image })} className="text-white rounded-lg p-2 bg-black text-center mt-5 w-full">
+            +
+         </button>
+        )}
+        {isProduct && (
+          <p className="pt-3">{isProduct.count}</p>
+        )}
+         {isProduct && (
+           <button onClick={() => removeFromCart(id)} className="text-white rounded-lg p-2 bg-red-400 text-center mt-5 w-full">
+            -
+         </button>
+        )}
+      </div>
     </div>
   );
 };

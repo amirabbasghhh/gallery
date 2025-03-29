@@ -7,6 +7,7 @@ import Skeletons from "../skeleton/Skeleton";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelectedOption } from "@/app/context/MyContext";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 type product = {
   id: number;
@@ -25,40 +26,53 @@ const Products = () => {
   const [products, setProducts] = useState<product[]>([]);
   const { selectedOption, setSelectedOption } = useSelectedOption();
   const [loading, setLoading] = useState<boolean>(true);
-  const router=useRouter()
-  const {t}=useTranslation("common")
+  const[error,setError]=useState("")
+  const router = useRouter();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const fetchProducts = async () => {
-      const BASE_URL = "https://fakestoreapi.com/products";
-      let URL
-      if(selectedOption==="all"){
-        URL=BASE_URL
+      try {
+        const BASE_URL = "https://fakestoreapi.com/products";
+        let URL =
+          selectedOption === "all"
+            ? BASE_URL
+            : `${BASE_URL}/category/${selectedOption}`;
+
+        const res = await fetch(URL);
+        if (!res.ok) throw new Error("مشکلی در دریافت اطلاعات رخ داده است.");
+
+        const data: product[] = await res.json();
+        setProducts(data);
+      } catch (error) {
+      setError((error as Error).message)
+      } finally {
+        setLoading(false);
       }
-      else{
-        URL=BASE_URL+`/category/${selectedOption}`
-      }
-      const res = await fetch(URL);
-      const data: product[] = await res.json();
-      setProducts(data);
-      setLoading(false);
     };
-    
 
     fetchProducts();
   }, [selectedOption]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if(value !="all"){
-      router.push(`?category=${value}`)
+    if (value != "all") {
+      router.push(`?category=${value}`);
+    } else {
+      router.push("/");
     }
-    else{
-      router.push('/')
-    }
-    setSelectedOption( value);
+    setSelectedOption(value);
   };
+  if(error){
+    return(
+      <>
+        <p className="text-center text-2xl font-bold">{error} data</p>
+        <p className="text-center text-sm text-gray-400 font-bold mt-4">your connection is lost</p>
+      </>
+      
+    )
+  }
 
   return (
     <div className="px-48 flex item-center gap-x-5">
@@ -118,7 +132,9 @@ const Products = () => {
               id="men's clothing"
               className="mr-2"
             />
-            <label className="whitespace-nowrap" htmlFor="mens_clothing">{t("mens_clothing")}</label>
+            <label className="whitespace-nowrap" htmlFor="mens_clothing">
+              {t("mens_clothing")}
+            </label>
           </div>
           <div className="flex items-center">
             <input
@@ -129,7 +145,9 @@ const Products = () => {
               id="women's clothing"
               className="mr-2"
             />
-            <label className="whitespace-nowrap" htmlFor="womens_clothing">{t("womens_clothing")}</label>
+            <label className="whitespace-nowrap" htmlFor="womens_clothing">
+              {t("womens_clothing")}
+            </label>
           </div>
         </div>
       </div>

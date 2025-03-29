@@ -24,6 +24,9 @@
   "sign out":"sign out",
   "dashboard":"dashboard",
   "account detail":"account detail",
-  "cart":"cart"
+  "cart":"cart",
+  "first login":"first login to your account",
+  "total price":"total price",
+  "total count":"total count"
   
 }
