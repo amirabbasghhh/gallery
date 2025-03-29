@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./provides";
-import AppLanguageSelector from "@/components/LanguageSelector/AppLanguageSelector";
-import Link from "next/link";
 import Header from "@/components/Header/Header";
 import { SelectedOptionProvider } from "./context/MyContext";
+import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "shop",
@@ -22,7 +22,11 @@ export default function RootLayout({
         <SelectedOptionProvider>
           <Providers>
             <Header />
-            <div className="mt-32 mb-20">{children}</div>
+            <div className="mt-32 mb-20">
+            <Toaster position="top-center" />
+              {children}
+              </div>
+              <Footer/>
           </Providers>
         </SelectedOptionProvider>
       </body>

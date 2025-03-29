@@ -1,15 +1,29 @@
 {
-    "all": "All",
-    "electronics": "Electronics",
-    "jewelery": "Jewelry",
-    "mens_clothing": "Men's Clothing",
-    "womens_clothing": "Women's Clothing",
-    "Add_to_Cart":"Add to Cart",
-    "Categories":"categories",
-    "shop":"shop",
-    "sign in":"sign in",
-    "sign up":"sign up"
-    
-    
-  }
+  "all": "All",
+  "electronics": "Electronics",
+  "jewelery": "Jewelry",
+  "mens_clothing": "Men's Clothing",
+  "womens_clothing": "Women's Clothing",
+  "Add_to_Cart": "Add to Cart",
+  "Categories": "categories",
+  "shop": "shop",
+  "sign in": "sign in",
+  "sign up": "sign up",
+  "register": "Register",
+  "login": "Login",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "name_required": "Name is required",
+  "email_required": "Email is required",
+  "invalid_email": "Invalid email",
+  "password_min": "Password must be at least 6 characters",
+  "password_required": "Password is required",
+  "no_account": "Don't have an account ?",
+  "have_account": "Already have an account ?",
+  "sign out":"sign out",
+  "dashboard":"dashboard",
+  "account detail":"account detail",
+  "cart":"cart"
   
+}

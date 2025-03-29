@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { useTranslation } from "react-i18next";
+import { useSelectedOption } from "@/app/context/MyContext";
+import toast from "react-hot-toast";
 
 type ProductItemProps = {
   image: string;
@@ -28,8 +30,17 @@ const ProductItem: React.FC<ProductItemProps> = ({
 }) => {
   const [value, setValue] = useState<number | null>(rating.rate);
   const { t, i18n } = useTranslation("common");
+  const { user, logout } = useSelectedOption();
+  const cartHandler=()=>{
+    if(user){
+      toast.success("به سبد خرید اضافه شد")
+    }
+    else{
+      toast.error("ابتدا وارد حساب کاربری خود شوید")
+    }
+  }
 
-  // چک کردن زبان برای تغییر قیمت و واحد پولی
+  
   const isPersian = i18n.language === "fa";
   const displayedPrice = isPersian 
     ? (price * 100000).toLocaleString("fa-IR") 
@@ -52,7 +63,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
         {title.length > 20 ? title.slice(0, 20) + "..." : title}
       </p>
 
-      {/* بخش قیمت و کتگوری */}
       <div className={`mt-5 flex ${isPersian ? "flex-col" : "flex-row"} items-center justify-between`}>
         <p className="p-2 rounded-md bg-green-500 text-white text-center w-full">
           {displayedPrice} {currency}
@@ -60,7 +70,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
         <p className={`text-xs ${isPersian ? "mt-2 text-center" : "ml-2"}`}>{category}</p>
       </div>
 
-      <button className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">
+      <button onClick={cartHandler} className="text-white rounded-lg p-2 bg-blue-400 text-center mt-5 w-full">
         {t("Add_to_Cart")}
       </button>
     </div>

@@ -23,7 +23,6 @@ type product = {
 
 const Products = () => {
   const [products, setProducts] = useState<product[]>([]);
-  // const [selectedOption, setSelectedOption] = useState<string>("all");
   const { selectedOption, setSelectedOption } = useSelectedOption();
   const [loading, setLoading] = useState<boolean>(true);
   const router=useRouter()
@@ -54,7 +53,6 @@ const Products = () => {
     const value = event.target.value;
     if(value !="all"){
       router.push(`?category=${value}`)
-
     }
     else{
       router.push('/')

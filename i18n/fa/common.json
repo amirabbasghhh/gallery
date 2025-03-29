@@ -1,14 +1,28 @@
 {
-    "all": "همه",
-    "electronics": "الکترونیک",
-    "jewelery": "جواهرات",
-    "mens_clothing": "لباس مردانه",
-    "womens_clothing": "لباس زنانه",
-    "Add_to_Cart":"افزودن به سبد خرید",
-    "Categories":"دسته بندی",
-    "shop":"فروشگاه",
-     "sign in":"ورود",
-    "sign up":"ثبت نام"
-  
-  }
-  
+  "all": "همه",
+  "electronics": "الکترونیک",
+  "jewelery": "جواهرات",
+  "mens_clothing": "لباس مردانه",
+  "womens_clothing": "لباس زنانه",
+  "Add_to_Cart": "افزودن به سبد خرید",
+  "Categories": "دسته بندی",
+  "shop": "فروشگاه",
+  "sign in": "ورود",
+  "sign up": "ثبت نام",
+  "register": "ثبت نام",
+  "login": "ورود",
+  "name": "نام",
+  "email": "ایمیل",
+  "password": "رمز عبور",
+  "name_required": "وارد کردن نام الزامی است",
+  "email_required": "وارد کردن ایمیل الزامی است",
+  "invalid_email": "ایمیل نامعتبر است",
+  "password_min": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+  "password_required": "رمز عبور الزامی است",
+  "no_account": "حساب کاربری ندارید؟",
+  "have_account": "حساب کاربری دارید؟",
+  "sign out":"خروج",
+  "dashboard":"پیشخوان",
+  "account detail":"جزییات حساب",
+  "cart":"سبد خرید"
+}
