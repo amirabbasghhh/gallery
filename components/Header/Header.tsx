@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { useSelectedOption } from "@/app/context/MyContext";
 import { useCart } from "@/app/context/CartContext";
+import { useRouter } from "next/navigation";
 
 interface User {
   token: string;
@@ -19,7 +20,7 @@ const Header = () => {
   const { t,i18n } = useTranslation("common");
     const { cart } = useCart();
     const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
-
+    const router=useRouter()
   
   const { setSelectedOption } = useSelectedOption();
   const { user, logout } = useSelectedOption();
@@ -112,7 +113,7 @@ const Header = () => {
                         />
                       </svg>
                     </div>
-                    <div className="flex justify-end flex-row-reverse gap-x-3 w-full p-2 rounded-lg hover:bg-blue-500 hover:text-white">
+                    <div onClick={()=>router.push('/cart') } className="flex justify-end flex-row-reverse gap-x-3 w-full p-2 rounded-lg hover:bg-blue-500 hover:text-white">
                       <p>{t("cart")}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

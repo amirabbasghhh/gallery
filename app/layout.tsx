@@ -19,12 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
+      <body className={`antialiased `}>
         <CartProvider>
             <SelectedOptionProvider>
               <Providers>
                 <Header />
-                <div className="mt-32 mb-20 min-h-[600px]">
+                <div className="py-32 bg-gray-100  min-h-[600px]">
                 <Toaster position="top-center" />
                   {children}
                   </div>

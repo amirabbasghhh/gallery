@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSelectedOption } from "@/app/context/MyContext";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import i18n from "@/i18n";
 
 type product = {
   id: number;
@@ -85,11 +86,11 @@ const Products = () => {
           ))}
         </div>
       )}
-      <div className=" border-2 border-blue-500 self-start rounded-lg w-[200px] ">
+      <div className=" border-2 bg-white border-blue-500 self-start rounded-lg w-[200px] ">
         <p className="w-[200px] mb-3 font-bold text-center text-white bg-blue-500 py-2">
           {t("Categories")}
         </p>
-        <div className="p-3 space-y-3 w-[200px]">
+        <div dir={i18n.language ==="fa" ? "rtl" :"ltr"} className="p-3 space-y-3 w-[200px]">
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -97,7 +98,7 @@ const Products = () => {
               onChange={handleChange}
               value="all"
               id="all"
-              className="mr-2"
+              className="mx-2"
             />
             <label htmlFor="all">{t("all")}</label>
           </div>
@@ -108,7 +109,7 @@ const Products = () => {
               onChange={handleChange}
               value="electronics"
               id="electronics"
-              className="mr-2"
+              className="mx-2"
             />
             <label htmlFor="electronics">{t("electronics")}</label>
           </div>
@@ -119,7 +120,7 @@ const Products = () => {
               onChange={handleChange}
               value="jewelery"
               id="jewelery"
-              className="mr-2"
+              className="mx-2"
             />
             <label htmlFor="jewelery">{t("jewelery")}</label>
           </div>
@@ -130,7 +131,7 @@ const Products = () => {
               onChange={handleChange}
               value="men's clothing"
               id="men's clothing"
-              className="mr-2"
+              className="mx-2"
             />
             <label className="whitespace-nowrap" htmlFor="mens_clothing">
               {t("mens_clothing")}
@@ -143,7 +144,7 @@ const Products = () => {
               onChange={handleChange}
               value="women's clothing"
               id="women's clothing"
-              className="mr-2"
+              className="mx-2"
             />
             <label className="whitespace-nowrap" htmlFor="womens_clothing">
               {t("womens_clothing")}
