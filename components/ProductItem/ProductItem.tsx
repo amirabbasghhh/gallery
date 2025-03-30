@@ -62,8 +62,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
           }}
         />
       </div>
-      <p className="overflow-hidden font-bold line-clamp-2 min-h-[60px]">
-        {title.length > 20 ? title.slice(0, 20) + "..." : title}
+      <p className="overflow-hidden font-bold line-clamp-4 min-h-[60px]">
+        {title.length > 20 ? title.slice(0, 30) + "..." : title}
       </p>
 
       <div

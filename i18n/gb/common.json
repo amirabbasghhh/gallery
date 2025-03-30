@@ -30,6 +30,7 @@
   "total count":"Total count",
   "status":"status",
   "pending":"pending ...",
-  "back":"back"
+  "back":"back",
+  "loading":"loading ..."
   
 }

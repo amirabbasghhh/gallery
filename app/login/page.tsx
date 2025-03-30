@@ -155,7 +155,7 @@ const AuthForm = () => {
             disabled={isLoading}
             className="w-full p-3 bg-blue-600 text-white rounded-md"
           >
-              {isLoading ? "در حال ارسال..." : isRegister ? t("register") : t("login")}
+              {isLoading ? t("loading") : isRegister ? t("register") : t("login")}
           </button>
         </form>
         <p className="text-center font-bold text-white mt-4">

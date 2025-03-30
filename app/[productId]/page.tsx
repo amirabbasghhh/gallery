@@ -9,9 +9,9 @@ export default async function Page({
   const res = await fetch(`https://fakestoreapi.com/products/${productId}`);
   const product = await res.json();
   return (
-    <div className="px-60 flex items-center gap-x-2">
-      <div className="w-[400px] rounded-xl border-2 border-dashed border-blue-500 p-4 bg-white">
-        <img className="w-70 h-70" src={product.image} alt="" />
+    <div className="px-8 md:px-24 lg:px-60  flex flex-col lg:flex-row items-center gap-2">
+      <div className="w-full lg:w-[400px] flex items-center justify-center rounded-3xl border-2 border-dashed border-blue-500 p-4 bg-white">
+        <img className="lg:w-70 h-70" src={product.image} alt="" />
       </div>
       <div className="p-6 border-2 border-blue-500 border-dashed rounded-3xl bg-white">
         <h1 className=" font-bold text-2xl text-blue-500">{product.title}</h1>

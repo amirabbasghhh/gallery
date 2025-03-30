@@ -2,6 +2,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 interface User {
   name: string;
   email: string;
@@ -26,6 +27,7 @@ export const SelectedOptionProvider = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+  const{t}=useTranslation()
 
   async function fetchUser() {
     const res = await fetch("/api/user");
@@ -34,7 +36,7 @@ export const SelectedOptionProvider = ({
   }
 
   async function logout() {
-    const toastId = toast.loading("صبر کنید ...");
+    const toastId = toast.loading(t("loading"));
     const response = await fetch("/api/logout", { method: "POST" });
     const data = await response.json();
     setUser(null);

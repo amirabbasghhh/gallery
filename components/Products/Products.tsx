@@ -76,7 +76,7 @@ const Products = () => {
   }
 
   return (
-    <div className="px-48 flex item-center gap-x-5">
+    <div className=" px-5 md:px-24 lg:px-32 xl:px-48 flex  flex-col-reverse md:flex-row item-center gap-5">
       {loading ? (
         <Skeletons />
       ) : (
@@ -86,11 +86,11 @@ const Products = () => {
           ))}
         </div>
       )}
-      <div className=" border-2 bg-white border-blue-500 self-start rounded-lg w-[200px] ">
-        <p className="w-[200px] mb-3 font-bold text-center text-white bg-blue-500 py-2">
+      <div className=" border-2 bg-white border-blue-500 self-start rounded-lg w-full lg:w-[200px] ">
+        <p className="w-full lg:w-[200px] mb-3 font-bold text-center text-white bg-blue-500 py-2">
           {t("Categories")}
         </p>
-        <div dir={i18n.language ==="fa" ? "rtl" :"ltr"} className="p-3 space-y-3 w-[200px]">
+        <div dir={i18n.language ==="fa" ? "rtl" :"ltr"} className="p-3 space-y-3 w-full lg:w-[200px]">
           <div className="flex items-center">
             <input
               type="checkbox"

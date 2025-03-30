@@ -17,15 +17,16 @@ interface User {
 }
 
 const Header = () => {
-  const { t,i18n } = useTranslation("common");
-    const { cart } = useCart();
-    const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
-    const router=useRouter()
-  
+  const { t, i18n } = useTranslation("common");
+  const { cart } = useCart();
+  const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
+  const router = useRouter();
+
   const { setSelectedOption } = useSelectedOption();
   const { user, logout } = useSelectedOption();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const[navbar,setNavbar]=useState(false)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,7 +45,8 @@ const Header = () => {
 
   return (
     <div>
-      <div className="fixed px-20 z-20 top-0 right-0 left-0 flex items-center justify-between text-white bg-blue-500 mx-auto py-5  w-[100%]">
+      {/* desktop header */}
+      <div className="hidden lg:flex fixed px-20 z-20 top-0 right-0 left-0  items-center justify-between text-white bg-blue-500 mx-auto py-5 w-[100%]">
         <Link
           href="/"
           className="font-bold text-xl"
@@ -113,7 +115,10 @@ const Header = () => {
                         />
                       </svg>
                     </div>
-                    <div onClick={()=>router.push('/cart') } className="flex justify-end flex-row-reverse gap-x-3 w-full p-2 rounded-lg hover:bg-blue-500 hover:text-white">
+                    <div
+                      onClick={() => router.push("/cart")}
+                      className="flex justify-end flex-row-reverse gap-x-3 w-full p-2 rounded-lg hover:bg-blue-500 hover:text-white"
+                    >
                       <p>{t("cart")}</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +199,9 @@ const Header = () => {
           )}
           <Link className="relative" href="/cart">
             {cart.length > 0 && (
-              <p className="absolute h-5 w-5 flex items-center justify-center bottom-8 -right-2 p-2 rounded-full bg-red-500 text-white">{totalItems}</p>
+              <p className="absolute h-5 w-5 flex items-center justify-center bottom-8 -right-2 p-2 rounded-full bg-red-500 text-white">
+                {totalItems}
+              </p>
             )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,6 +213,39 @@ const Header = () => {
             </svg>
           </Link>
         </div>
+      </div>
+      {/* mobile header */}
+      <div className="fixed flex items-center px-5 py-5 lg:hidden z-20 top-0 right-0 left-0  justify-between text-white bg-blue-500 ">
+        <Link
+          href="/"
+          className="font-bold text-xl"
+          onClick={() => setSelectedOption("all")}
+        >
+          {t("shop")}
+        </Link>
+        <AppLanguageSelector />
+        <div onClick={()=>setNavbar(true)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="size-8"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+      {/* navbar */}
+      <div className={`bg-white lg:hidden w-48 fixed z-30 top-0 bottom-0 max-h-screen ${navbar ? " right-0 " : " -right-48 "} transition-all duration-500`}>
+
+      </div>
+      {/* overlay */}
+      <div onClick={() =>setNavbar(false)} className={`lg:hidden fixed z-10 inset-0 bg-black/55 transition-all duration-500 ${navbar ? "opacity-100 visible" :" opacity-0 invisible"} `}>
+
       </div>
     </div>
   );
