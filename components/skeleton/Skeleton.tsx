@@ -7,7 +7,7 @@ const Skeletons = () => {
       {Array(8).fill(0).map((_, index) => (
         <div
           key={index}
-          className="w-[220px] h-[400px]  rounded-lg bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 animate-pulse"
+          className="  lg:w-[220px] h-[400px]  rounded-lg bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 animate-pulse"
         />
       ))}
     </div>

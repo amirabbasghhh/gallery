@@ -21,10 +21,10 @@ const CartPage = () => {
   const currency = isPersian ? "تومان" : "$";
 
   return (
-    <div className="px-36 mx-auto flex gap-x-3 flex-row-reverse ">
+    <div className=" px-5 md:px-24 lg:px-36  mx-auto flex flex-col  gap-3 lg:flex-row-reverse ">
       <div
         dir={i18n.language === "fa" ? "rtl" : "ltr"}
-        className="border-2 bg-white  flex flex-col gap-y-5  items-start   rounded-lg border-blue-500 self-start"
+        className="border-2 bg-white  flex flex-col gap-y-5  items-start w-full lg:w-auto  rounded-lg border-blue-500 self-start"
       >
         <p className="text-center text-white bg-blue-500 w-full py-2">{t("cart")}</p>
         <div className="text-nowrap flex gap-x-2 px-4 py-1">
@@ -88,7 +88,7 @@ const CartPage = () => {
 
       {cart.length === 0 ? (
         <p className="text-center text-4xl font-extrabold">
-          سبد خرید شما خالی است
+      {t("Your cart is empty")}
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-3 w-full">

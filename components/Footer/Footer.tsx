@@ -1,12 +1,15 @@
+"use client"
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const {t}=useTranslation("common")
   return (
     <footer className="bg-blue-500 text-white pt-5 pb-2 ">
       <div className="container mx-auto px-6 lg:px-20 flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left mb-6 md:mb-0">
-          <h2 className="text-2xl font-bold">DIGI shop</h2>
-          <p className="text-white mt-2">Bringing innovation to your fingertips.</p>
+          <h2 className="text-2xl font-bold">{t("DIGI shop")}</h2>
+          <p className="text-white mt-2">{t("Bringing innovation to your fingertips")}</p>
         </div>
         <div className="flex space-x-6">
           <a href="#" className="hover:text-gray-300 transition">
