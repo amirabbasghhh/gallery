@@ -18,7 +18,7 @@ interface User {
 
 const Header = () => {
   const { t, i18n } = useTranslation("common");
-  const { cart } = useCart();
+  const { cart ,setCart} = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
   const router = useRouter();
 
@@ -155,7 +155,12 @@ const Header = () => {
                     </div>
                   </div>
                   <button
-                    onClick={logout}
+                    onClick={
+                      ()=>{
+                        logout();
+                        setCart([])
+                      }
+                    }
                     dir={i18n.language === "gb" ? "rtl" : "ltr"}
                     className="flex items-center justify-end mt-2 gap-x-3 text-right w-full p-2 text-black rounded-lg hover:bg-red-500 hover:text-white "
                   >
@@ -360,8 +365,10 @@ const Header = () => {
                   </div>
                   <button
                       onClick={() => {
+                        setCart([])
                         logout();
                         setNavbar(false);
+                        
                       }}
                     dir={i18n.language === "gb" ? "rtl" : "ltr"}
                     className="flex items-center justify-end mt-2 gap-x-3 text-right w-full p-2 text-black rounded-lg hover:bg-red-500 hover:text-white "

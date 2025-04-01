@@ -76,7 +76,7 @@ const AuthForm = () => {
 
   return (
     <div
-      className={`flex justify-center items-center mt-48   ${
+      className={`flex justify-center items-center mt-10   ${
         i18n.language === "fa" ? "rtl" : "ltr"
       }`}
     >
