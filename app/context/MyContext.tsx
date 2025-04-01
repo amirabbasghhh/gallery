@@ -1,8 +1,9 @@
 "use client";
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { createContext, useState, useContext, useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+
 interface User {
   name: string;
   email: string;
@@ -16,57 +17,71 @@ type SelectedOptionContextType = {
   logout: () => Promise<void>;
 };
 
-const SelectedOptionContext = createContext<
-  SelectedOptionContextType | undefined
->(undefined);
+const SelectedOptionContext = createContext<SelectedOptionContextType | undefined>(undefined);
 
-export const SelectedOptionProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const SelectedOptionProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectedOption, setSelectedOption] = useState<string>("all"); // مقدار پیش‌فرض
   const router = useRouter();
-  const{t}=useTranslation()
+  const { t } = useTranslation();
 
+  // Fetch user data
   async function fetchUser() {
-    const res = await fetch("/api/user");
-    const data = await res.json();
-    setUser(data.user);
+    try {
+      const res = await fetch("/api/user");
+      const data = await res.json();
+      setUser(data.user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
+  // Logout function
   async function logout() {
     const toastId = toast.loading(t("loading"));
-    const response = await fetch("/api/logout", { method: "POST" });
-    const data = await response.json();
-    setUser(null);
-    if (response.status === 200) {
-      toast.dismiss(toastId); 
+    try {
+      const response = await fetch("/api/logout", { method: "POST" });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+      setUser(null);
+      toast.dismiss(toastId);
       toast.success(data.message);
       router.push("/login");
-    } else {
-      toast.dismiss(toastId); 
+    } catch (error) {
+      toast.dismiss(toastId);
       toast.error("Error in logging out");
     }
   }
-  useEffect(() => {
-    fetchUser();
-  }, []);
-  const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category") || "all";
-  const [selectedOption, setSelectedOption] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("selectedOption") || categoryFromUrl;
-    }
-    return categoryFromUrl;
-  });
 
+  // استفاده از useSearchParams فقط در محیط کلاینت
   useEffect(() => {
-    localStorage.setItem("selectedOption", selectedOption);
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const categoryFromUrl = searchParams.get("category") || "all";
+      setSelectedOption(localStorage.getItem("selectedOption") || categoryFromUrl);
+    }
+  }, []);
+
+  // ذخیره selectedOption در localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedOption", selectedOption);
+    }
   }, [selectedOption]);
 
+  const contextValue = useMemo(() => ({
+    selectedOption,
+    setSelectedOption,
+    user,
+    fetchUser,
+    logout,
+  }), [selectedOption, user]);
+
   return (
-    <SelectedOptionContext.Provider value={{ selectedOption, setSelectedOption, user, fetchUser, logout }} >
+    <SelectedOptionContext.Provider value={contextValue}>
       {children}
     </SelectedOptionContext.Provider>
   );
@@ -75,9 +90,7 @@ export const SelectedOptionProvider = ({
 export const useSelectedOption = (): SelectedOptionContextType => {
   const context = useContext(SelectedOptionContext);
   if (!context) {
-    throw new Error(
-      "useSelectedOption must be used within a SelectedOptionProvider"
-    );
+    throw new Error("useSelectedOption must be used within a SelectedOptionProvider");
   }
   return context;
 };
