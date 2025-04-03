@@ -6,10 +6,7 @@ import { SelectedOptionProvider } from "./context/MyContext";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer/Footer";
 import { CartProvider } from "./context/CartContext";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import { User } from "@/models/User";
-import { connectDB } from "@/lib/db";
+
 
 
 export const metadata: Metadata = {
@@ -18,22 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode}) {
-  await connectDB(); // اطمینان از اتصال به دیتابیس
 
-  const cookieStore =await cookies();
-  const token = cookieStore.get("token")?.value;
 
-  let user = null;
-  
-  if (token && process.env.JWT_SECRET) {
-    try {
-      const decoded: any = jwt.verify(token, process.env.JWT_SECRET);
-      user = await User.findById(decoded.id).select("-password").lean();
-      user = user ? JSON.parse(JSON.stringify(user)) : null;
-    } catch (error) {
-      user = null;
-    }
-  }
 
   return (
     <html lang="en">
@@ -42,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <SelectedOptionProvider>
             <Providers>
               <Toaster position="top-center" />
-              <Header user={user} />
+              <Header  />
               <div className="py-32 bg-gray-100 min-h-[600px]">
                 {children}
               </div>

@@ -21,9 +21,9 @@ const Header  = () => {
   const { cart ,setCart} = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
   const router = useRouter();
-  // const[user,setUser]=useState()
 
-  const { setSelectedOption,user,setUser } = useSelectedOption();
+
+  const { setSelectedOption,user } = useSelectedOption();
   const {  logout } = useSelectedOption();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
