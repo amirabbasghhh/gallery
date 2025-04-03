@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useState, useContext, useEffect, useMemo } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -13,31 +19,42 @@ type SelectedOptionContextType = {
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+
   fetchUser: () => Promise<void>;
   logout: () => Promise<void>;
 };
 
-const SelectedOptionContext = createContext<SelectedOptionContextType | undefined>(undefined);
+const SelectedOptionContext = createContext<
+  SelectedOptionContextType | undefined
+>(undefined);
 
-export const SelectedOptionProvider = ({ children }: { children: React.ReactNode }) => {
+export const SelectedOptionProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] = useState<string>("all"); // مقدار پیش‌فرض
   const router = useRouter();
   const { t } = useTranslation();
+  
 
-  // Fetch user data
-  async function fetchUser() {
-    try {
-      const res = await fetch("/api/user");
-      const data = await res.json();
-      setUser(data.user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-    } finally {
-      setIsLoading(false);
+    async function fetchUser() {
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+        setUser(data.user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
+    useEffect(()=>{
+       fetchUser()
+    },[])
 
   // Logout function
   async function logout() {
@@ -56,12 +73,14 @@ export const SelectedOptionProvider = ({ children }: { children: React.ReactNode
     }
   }
 
-  // استفاده از useSearchParams فقط در محیط کلاینت
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const searchParams = new URLSearchParams(window.location.search);
       const categoryFromUrl = searchParams.get("category") || "all";
-      setSelectedOption(localStorage.getItem("selectedOption") || categoryFromUrl);
+      setSelectedOption(
+        localStorage.getItem("selectedOption") || categoryFromUrl
+      );
     }
   }, []);
 
@@ -72,13 +91,17 @@ export const SelectedOptionProvider = ({ children }: { children: React.ReactNode
     }
   }, [selectedOption]);
 
-  const contextValue = useMemo(() => ({
-    selectedOption,
-    setSelectedOption,
-    user,
-    fetchUser,
-    logout,
-  }), [selectedOption, user]);
+  const contextValue = useMemo(
+    () => ({
+      selectedOption,
+      setSelectedOption,
+      user,
+      setUser,
+      fetchUser,
+      logout,
+    }),
+    [selectedOption, user]
+  );
 
   return (
     <SelectedOptionContext.Provider value={contextValue}>
@@ -90,7 +113,9 @@ export const SelectedOptionProvider = ({ children }: { children: React.ReactNode
 export const useSelectedOption = (): SelectedOptionContextType => {
   const context = useContext(SelectedOptionContext);
   if (!context) {
-    throw new Error("useSelectedOption must be used within a SelectedOptionProvider");
+    throw new Error(
+      "useSelectedOption must be used within a SelectedOptionProvider"
+    );
   }
   return context;
 };

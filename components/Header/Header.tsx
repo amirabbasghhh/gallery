@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import AppLanguageSelector from "../LanguageSelector/AppLanguageSelector";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -16,19 +16,22 @@ interface User {
   };
 }
 
-const Header = () => {
+const Header  = () => {
   const { t, i18n } = useTranslation("common");
   const { cart ,setCart} = useCart();
   const totalItems = cart.reduce((sum, item) => sum + item.count, 0);
   const router = useRouter();
+  // const[user,setUser]=useState()
 
-  const { setSelectedOption } = useSelectedOption();
-  const { user, logout } = useSelectedOption();
+  const { setSelectedOption,user,setUser } = useSelectedOption();
+  const {  logout } = useSelectedOption();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
   const dropdownRef = useRef(null);
   const [navbar, setNavbar] = useState(false);
-
+  useEffect(()=>{
+    
+  })
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -58,7 +61,7 @@ const Header = () => {
         <AppLanguageSelector />
 
         <div className="flex item-center gap-x-10">
-          {user ? (
+          {user?.email ? (
             <div className="relative">
               <button
                 onClick={() => setIsOpen(!isOpen)}

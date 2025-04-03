@@ -43,7 +43,7 @@ const AuthForm = () => {
           });
       
           const data = await response.json();
-      
+          fetchUser()
           if (response.status === 201) {
             toast.success(data.message || "عملیات موفقیت‌آمیز بود!");
             if (isRegister) {

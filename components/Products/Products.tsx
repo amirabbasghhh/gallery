@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import ProductItem from "../ProductItem/ProductItem";
-import Checkbox from "@mui/material/Checkbox";
 import Skeletons from "../skeleton/Skeleton";
-import { usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useSelectedOption } from "@/app/context/MyContext";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import i18n from "@/i18n";
 
 type product = {
